@@ -1,14 +1,17 @@
-# minimongo
 
-`minimongo` is reimplementation of (almost) the entire MongoDB API, against an
-in-memory JavaScript database. It is like a MongoDB emulator that runs inside
-your web browser. You can insert data into it and search, sort, and update that
-data. This is great if you like the MongoDB API (which you may already be using
-on the server), need a way to store data on the client that you've fetched and
-are using to render your interface, and want to use that familiar API.
+# minimongo v1.0.9 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-Minimongo is used as a temporary data cache in the standard Meteor stack, to
-learn more about mini-databases and what they can do, see [the project page on
-www.meteor.com](https://www.meteor.com/mini-databases)
+This package is stripped from [meteor/minimongo](https://atmospherejs.com/meteor/minimongo) and made compatible with [React Native](https://github.com/facebook/react-native).
 
+Read about this package [here](https://www.meteor.com/mini-databases).
 
+**Note:** This package is only for client-side usage.
+
+&nbsp;
+
+## usage
+
+```js
+var Minimongo = require('minimongo');
+var LocalCollection = require('minimongo/collection');
+```

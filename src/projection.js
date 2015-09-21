@@ -1,3 +1,10 @@
+
+var EJSON = require('ejson');
+var _ = require('underscore');
+
+var Minimongo = require('./minimongo');
+var LocalCollection = require('./collection');
+
 // Knows how to compile a fields projection to a predicate function.
 // @returns - Function: a closure that filters out an object according to the
 //            fields projection rules:
@@ -52,7 +59,7 @@ LocalCollection._compileProjection = function (fields) {
 //  - tree - Object - tree representation of keys involved in projection
 //  (exception for '_id' as it is a special case handled separately)
 //  - including - Boolean - "take only certain fields" type of projection
-projectionDetails = function (fields) {
+var projectionDetails = function (fields) {
   // Find the non-_id keys (_id is handled specially because it is included unless
   // explicitly excluded). Sort the keys, so that our code to detect overlaps
   // like 'foo' and 'foo.bar' can assume that 'foo' comes first.
@@ -77,7 +84,7 @@ projectionDetails = function (fields) {
       including = rule;
     if (including !== rule)
       // This error message is copied from MongoDB shell
-      throw MinimongoError("You cannot currently mix including and excluding fields.");
+      throw Minimongo.Error("You cannot currently mix including and excluding fields.");
   });
 
 
@@ -104,7 +111,7 @@ projectionDetails = function (fields) {
 
       var currentPath = fullPath;
       var anotherPath = path;
-      throw MinimongoError("both " + currentPath + " and " + anotherPath +
+      throw Minimongo.Error("both " + currentPath + " and " + anotherPath +
                            " found in fields option, using both of them may trigger " +
                            "unexpected behavior. Did you mean to use only one of them?");
     });
@@ -124,7 +131,7 @@ projectionDetails = function (fields) {
 //                        conflict resolution.
 // initial tree - Optional Object: starting tree.
 // @returns - Object: tree represented as a set of nested objects
-pathsToTree = function (paths, newLeafFn, conflictFn, tree) {
+var pathsToTree = function (paths, newLeafFn, conflictFn, tree) {
   tree = tree || {};
   _.each(paths, function (keyPath) {
     var treePos = tree;
@@ -161,14 +168,14 @@ pathsToTree = function (paths, newLeafFn, conflictFn, tree) {
 
 LocalCollection._checkSupportedProjection = function (fields) {
   if (!_.isObject(fields) || _.isArray(fields))
-    throw MinimongoError("fields option must be an object");
+    throw Minimongo.Error("fields option must be an object");
 
   _.each(fields, function (val, keyPath) {
     if (_.contains(keyPath.split('.'), '$'))
-      throw MinimongoError("Minimongo doesn't support $ operator in projections yet.");
+      throw Minimongo.Error("Minimongo doesn't support $ operator in projections yet.");
     if (typeof val === 'object' && _.intersection(['$elemMatch', '$meta', '$slice'], _.keys(val)).length > 0)
-      throw MinimongoError("Minimongo doesn't support operators in projections yet.");
+      throw Minimongo.Error("Minimongo doesn't support operators in projections yet.");
     if (_.indexOf([1, 0, true, false], val) === -1)
-      throw MinimongoError("Projection values should be one of 1, 0, true, or false");
+      throw Minimongo.Error("Projection values should be one of 1, 0, true, or false");
   });
 };

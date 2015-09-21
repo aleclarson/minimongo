@@ -1,3 +1,13 @@
+
+var Tracker = require('tracker');
+var EJSON = require('ejson');
+var _ = require('underscore');
+
+var LocalCollection = require('./collection');
+
+var Helpers = require('./helpers');
+var isPlainObject = Helpers.isPlainObject;
+
 // Wrap a transform function to return objects that have the _id field
 // of the untransformed document. This ensures that subsystems such as
 // the observe-sequence package that call `observe` can keep track of
@@ -8,7 +18,7 @@
 //   original _id field
 // - If the return value doesn't have an _id field, add it back.
 LocalCollection.wrapTransform = function (transform) {
-  if (! transform)
+  if (!transform)
     return null;
 
   // No need to doubly-wrap transforms.

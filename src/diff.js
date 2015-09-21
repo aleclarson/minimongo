@@ -1,3 +1,8 @@
+
+var DiffSequence = require('diff-sequence');
+
+var LocalCollection = require('./collection');
+
 // ordered: bool.
 // old_results and new_results: collections of documents.
 //    if ordered, they are arrays.
@@ -11,8 +16,7 @@ LocalCollection._diffQueryUnorderedChanges = function (oldResults, newResults, o
 };
 
 
-LocalCollection._diffQueryOrderedChanges =
-  function (oldResults, newResults, observer, options) {
+LocalCollection._diffQueryOrderedChanges = function (oldResults, newResults, observer, options) {
   return DiffSequence.diffQueryOrderedChanges(oldResults, newResults, observer, options);
 };
 

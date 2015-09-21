@@ -15,6 +15,23 @@
 //    object.
 //  - an "element matcher" maps from a single value to a bool.
 
+// XXX type checking on selectors (graceful error if malformed)
+
+var MongoID = require('mongo-id');
+var GeoJSON = require('geojson');
+var EJSON = require('ejson');
+var _ = require('underscore');
+
+var Minimongo = require('./minimongo');
+var LocalCollection = require('./collection');
+
+var Helpers = require('./helpers');
+var isArray = Helpers.isArray;
+var isIndexable = Helpers.isIndexable;
+var isNumericKey = Helpers.isNumericKey;
+var isPlainObject = Helpers.isPlainObject;
+var isOperatorObject = Helpers.isOperatorObject;
+
 // Main entry point.
 //   var matcher = new Minimongo.Matcher({a: {$gt: 5}});
 //   if (matcher.documentMatches({a: 7})) ...
@@ -204,7 +221,7 @@ var convertElementMatcherToBranchedMatcher = function (
 };
 
 // Takes a RegExp object and returns an element matcher.
-regexpElementMatcher = function (regexp) {
+var regexpElementMatcher = function (regexp) {
   return function (value) {
     if (value instanceof RegExp) {
       // Comparing two regexps means seeing if the regexps are identical
@@ -228,7 +245,7 @@ regexpElementMatcher = function (regexp) {
 
 // Takes something that is not an operator object and returns an element matcher
 // for equality with that thing.
-equalityElementMatcher = function (elementSelector) {
+var equalityElementMatcher = function (elementSelector) {
   if (isOperatorObject(elementSelector))
     throw Error("Can't create equalityValueSelector for operator object");
 
@@ -774,7 +791,7 @@ ELEMENT_OPERATORS = {
 //
 // See the test 'minimongo - lookup' for some examples of what lookup functions
 // return.
-makeLookupFunction = function (key, options) {
+var makeLookupFunction = function (key, options) {
   options = options || {};
   var parts = key.split('.');
   var firstPart = parts.length ? parts[0] : '';
@@ -887,7 +904,7 @@ makeLookupFunction = function (key, options) {
 };
 MinimongoTest.makeLookupFunction = makeLookupFunction;
 
-expandArraysInBranches = function (branches, skipTheArrays) {
+var expandArraysInBranches = function (branches, skipTheArrays) {
   var branchesOut = [];
   _.each(branches, function (branch) {
     var thisIsArray = isArray(branch.value);
@@ -1138,4 +1155,12 @@ LocalCollection._removeDollarOperators = function (selector) {
     if (k.substr(0, 1) !== '$')
       selectorDoc[k] = selector[k];
   return selectorDoc;
+};
+
+module.exports = {
+  ELEMENT_OPERATORS: ELEMENT_OPERATORS,
+  regexpElementMatcher: regexpElementMatcher,
+  equalityElementMatcher: equalityElementMatcher,
+  makeLookupFunction: makeLookupFunction,
+  expandArraysInBranches: expandArraysInBranches,
 };

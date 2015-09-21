@@ -1,5 +1,13 @@
 // XXX maybe move these into another ObserveHelpers package or something
 
+var DiffSequence = require('diff-sequence');
+var OrderedDict = require('ordered-dict');
+var MongoID = require('mongo-id');
+var EJSON = require('ejson');
+var _ = require('underscore');
+
+var LocalCollection = require('./collection');
+
 // _CachingChangeObserver is an object which receives observeChanges callbacks
 // and keeps a cache of the current cursor state up to date in self.docs. Users
 // of this class should read the docs field but not modify it. You should pass

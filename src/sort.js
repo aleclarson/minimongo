@@ -1,3 +1,18 @@
+
+var JSON = require('json');
+var _ = require('underscore');
+
+var Minimongo = require('./minimongo');
+var LocalCollection = require('./collection');
+
+var Helpers = require('./helpers');
+var isOperatorObject = Helpers.isOperatorObject;
+
+var Selector = require('./selector');
+var ELEMENT_OPERATORS = Selector.ELEMENT_OPERATORS;
+var regexpElementMatcher = Selector.regexpElementMatcher;
+var equalityElementMatcher = Selector.equalityElementMatcher;
+
 // Give a sort spec, which can be in any of these forms:
 //   {"key1": 1, "key2": -1}
 //   [["key1", "asc"], ["key2", "desc"]]
@@ -10,7 +25,6 @@
 // return a function that takes two objects, and returns -1 if the
 // first object comes first in order, 1 if the second object comes
 // first, or 0 if neither object comes before the other.
-
 Minimongo.Sorter = function (spec, options) {
   var self = this;
   options = options || {};
