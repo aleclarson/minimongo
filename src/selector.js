@@ -902,7 +902,6 @@ var makeLookupFunction = function (key, options) {
     return result;
   };
 };
-MinimongoTest.makeLookupFunction = makeLookupFunction;
 
 var expandArraysInBranches = function (branches, skipTheArrays) {
   var branchesOut = [];
