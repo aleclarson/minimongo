@@ -1,0 +1,18 @@
+{
+  "name": "minimongo",
+  "version": "1.0.9",
+  "description": "Meteor's client-side datastore: a port of MongoDB to Javascript",
+  "dependencies": {
+    "diff-sequence": "aleclarson/diff-sequence#1.0.0",
+    "ejson": "aleclarson/ejson#1.0.7",
+    "geojson": "aleclarson/geojson#1.0.4",
+    "id-map": "aleclarson/id-map#1.0.4",
+    "json": "aleclarson/json#1.0.4",
+    "meteor-client": "aleclarson/meteor-client#1.1.7",
+    "mongo-id": "aleclarson/mongo-id#1.0.0",
+    "ordered-dict": "aleclarson/ordered-dict#1.0.4",
+    "random": "aleclarson/random#1.0.4",
+    "tracker": "aleclarson/tracker#1.0.8",
+    "underscore": "aleclarson/underscore#1.5.2"
+  }
+}
