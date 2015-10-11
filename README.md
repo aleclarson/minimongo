@@ -15,3 +15,7 @@ Read about this package [here](https://www.meteor.com/mini-databases).
 var Minimongo = require('minimongo');
 var LocalCollection = require('minimongo/collection');
 ```
+
+## contributions
+
+Pull requests are welcome, but should be against the `devel` branch.
