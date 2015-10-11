@@ -1,5 +1,5 @@
 
-module.exports = require('./minimongo');
+module.exports = require('./src/minimongo');
 
 require('./src/collection');
 require('./src/cursor');
